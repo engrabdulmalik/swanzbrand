@@ -1,0 +1,1 @@
+import{j as s}from"../../../vendor.js";import{F as e}from"./FilteredShop.js";const i=()=>s.jsxs("div",{children:[s.jsx("h1",{children:"Kitchen Accessories "}),s.jsx(e,{category:"Kitchen Accessories"})]});export{i as K};
