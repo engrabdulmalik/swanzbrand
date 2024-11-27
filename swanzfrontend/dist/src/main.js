@@ -1,1 +1,1 @@
-import{ah as e,j as t,$ as o}from"../vendor.js";import{A as r}from"./App.js";e.createRoot(document.getElementById("root")).render(t.jsx(o.StrictMode,{children:t.jsx(r,{})}));
+import{a1 as r,j as e,W as t,a2 as o}from"../vendor.js";import{A as s}from"./App.js";import{s as a}from"./redux/store.js";r.createRoot(document.getElementById("root")).render(e.jsx(t.StrictMode,{children:e.jsx(o,{store:a,children:e.jsx(s,{})})}));

@@ -1,11 +1,23 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import SearchIcon from '@mui/icons-material/Search';
-import PersonIcon from '@mui/icons-material/Person';
-import CompareArrowsIcon from '@mui/icons-material/CompareArrows';
-import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import AddCardIcon from '@mui/icons-material/AddCard';
-import { IconButton, Box, TextField, Menu, MenuItem, Badge, InputAdornment } from '@mui/material';
+import React, { useState, useRef, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { logout } from "../../redux/actions/userActions"; // Adjust the path as needed
+import SearchIcon from "@mui/icons-material/Search";
+import PersonIcon from "@mui/icons-material/Person";
+import CompareArrowsIcon from "@mui/icons-material/CompareArrows";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import AddCardIcon from "@mui/icons-material/AddCard";
+import {
+  IconButton,
+  Box,
+  TextField,
+  Menu,
+  MenuItem,
+  Badge,
+  InputAdornment,
+} from "@mui/material";
+import Swal from "sweetalert2";
+
 
 const SingleButton = () => {
   const [searchOpen, setSearchOpen] = useState(false);
@@ -14,9 +26,13 @@ const SingleButton = () => {
   const [cartCount, setCartCount] = useState(0);
   const searchRef = useRef(null);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
 
   const handleSearchClick = () => {
-    setSearchOpen(prev => !prev);
+    setSearchOpen((prev) => !prev);
   };
 
   const handlePersonClick = (event) => {
@@ -42,59 +58,90 @@ const SingleButton = () => {
   };
 
   const handleLoginClick = () => {
-    navigate('/register');
+    navigate("/login");
     handleCloseMenu();
   };
 
   const handleRegisterClick = () => {
-    navigate('/register');
+    navigate("/register");
     handleCloseMenu();
   };
 
   const handleMyAccountClick = () => {
-    navigate('/myaccount');
+    navigate("/myaccount");
     handleCloseMenu();
   };
 
+  const handleLogoutClick = () => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You will be logged out of your account.",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, log me out",
+      cancelButtonText: "Cancel",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        dispatch(logout());
+        handleCloseMenu();
+        Swal.fire(
+          "Logged Out",
+          "You have been logged out successfully.",
+          "success"
+        );
+      }
+    });
+  };
+
   const handleComparePageClick = () => {
-    navigate('/compare');
+    navigate("/compare");
     handleAdditionalClick();
   };
 
   const handleWishlistPageClick = () => {
-    navigate('/wishlist');
+    navigate("/wishlist");
     handleAdditionalClick();
   };
 
   const handleCartPageClick = () => {
-    navigate('/cart');
+    navigate("/cart");
     handleAdditionalClick();
   };
 
   useEffect(() => {
-    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside);
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
 
   return (
-    <Box sx={{ display: 'flex', gap: 2, justifyContent: 'center', my: 2, position: 'relative' }}>
+    <Box
+      sx={{
+        display: "flex",
+        gap: 2,
+        justifyContent: "center",
+        my: 2,
+        position: "relative",
+      }}
+    >
       {/* Search Button */}
       <IconButton
         onClick={handleSearchClick}
         sx={{
-          backgroundColor: '#f5f5f5',
-          color: '#000',
-          '&:hover': {
-            backgroundColor: '#e0e0e0',
+          backgroundColor: "#f5f5f5",
+          color: "#000",
+          "&:hover": {
+            backgroundColor: "#e0e0e0",
           },
-          borderRadius: '50%',
-          width: '56px',
-          height: '56px',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
+          borderRadius: "50%",
+          width: "56px",
+          height: "56px",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
           boxShadow: 1,
         }}
       >
@@ -106,14 +153,14 @@ const SingleButton = () => {
           variant="outlined"
           placeholder="Search..."
           sx={{
-            position: 'absolute',
-            top: '70px',
-            left: '0',
-            width: '300px', // Adjust width as needed
-            borderRadius: '8px',
-            backgroundColor: '#fff',
+            position: "absolute",
+            top: "70px",
+            left: "0",
+            width: "300px",
+            borderRadius: "8px",
+            backgroundColor: "#fff",
             boxShadow: 2,
-            transition: 'all 0.3s ease',
+            transition: "all 0.3s ease",
             zIndex: 1,
           }}
           autoFocus
@@ -121,7 +168,7 @@ const SingleButton = () => {
           InputProps={{
             startAdornment: (
               <InputAdornment position="start">
-                <SearchIcon sx={{ color: 'gray' }} />
+                <SearchIcon sx={{ color: "gray" }} />
               </InputAdornment>
             ),
           }}
@@ -132,17 +179,17 @@ const SingleButton = () => {
       <IconButton
         onClick={handlePersonClick}
         sx={{
-          backgroundColor: '#f5f5f5',
-          color: '#000',
-          '&:hover': {
-            backgroundColor: '#e0e0e0',
+          backgroundColor: "#f5f5f5",
+          color: "#000",
+          "&:hover": {
+            backgroundColor: "#e0e0e0",
           },
-          borderRadius: '50%',
-          width: '56px',
-          height: '56px',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
+          borderRadius: "50%",
+          width: "56px",
+          height: "56px",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
           boxShadow: 1,
         }}
       >
@@ -155,26 +202,36 @@ const SingleButton = () => {
         onClose={handleCloseMenu}
         sx={{ mt: 2 }}
       >
-        <MenuItem onClick={handleLoginClick}>Login</MenuItem>
-        <MenuItem onClick={handleRegisterClick}>Register</MenuItem>
-        <MenuItem onClick={handleMyAccountClick}>My Account</MenuItem>
+        {userInfo ? (
+          <>
+            <MenuItem onClick={handleMyAccountClick}>
+              {userInfo.first_name}
+            </MenuItem>
+            <MenuItem onClick={handleLogoutClick}>Logout</MenuItem>
+          </>
+        ) : (
+          <>
+            <MenuItem onClick={handleLoginClick}>Login</MenuItem>
+            <MenuItem onClick={handleRegisterClick}>Register</MenuItem>
+          </>
+        )}
       </Menu>
 
       {/* CompareArrowsIcon Button */}
       <IconButton
         onClick={handleComparePageClick}
         sx={{
-          backgroundColor: '#f5f5f5',
-          color: '#000',
-          '&:hover': {
-            backgroundColor: '#e0e0e0',
+          backgroundColor: "#f5f5f5",
+          color: "#000",
+          "&:hover": {
+            backgroundColor: "#e0e0e0",
           },
-          borderRadius: '50%',
-          width: '56px',
-          height: '56px',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
+          borderRadius: "50%",
+          width: "56px",
+          height: "56px",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
           boxShadow: 1,
         }}
       >
@@ -185,17 +242,17 @@ const SingleButton = () => {
       <IconButton
         onClick={handleWishlistPageClick}
         sx={{
-          backgroundColor: '#f5f5f5',
-          color: '#000',
-          '&:hover': {
-            backgroundColor: '#e0e0e0',
+          backgroundColor: "#f5f5f5",
+          color: "#000",
+          "&:hover": {
+            backgroundColor: "#e0e0e0",
           },
-          borderRadius: '50%',
-          width: '56px',
-          height: '56px',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
+          borderRadius: "50%",
+          width: "56px",
+          height: "56px",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
           boxShadow: 1,
         }}
       >
@@ -206,17 +263,17 @@ const SingleButton = () => {
       <IconButton
         onClick={handleCartPageClick}
         sx={{
-          backgroundColor: '#f5f5f5',
-          color: '#000',
-          '&:hover': {
-            backgroundColor: '#e0e0e0',
+          backgroundColor: "#f5f5f5",
+          color: "#000",
+          "&:hover": {
+            backgroundColor: "#e0e0e0",
           },
-          borderRadius: '50%',
-          width: '56px',
-          height: '56px',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
+          borderRadius: "50%",
+          width: "56px",
+          height: "56px",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
           boxShadow: 1,
         }}
       >
