@@ -16,18 +16,23 @@ class UserAccountManager(BaseUserManager):
         user = self.model(email=email, **extra_fields)
 
         user.set_password(password)
-        user.save()
+        user.save(using=self._db)  # Explicitly specify the database
 
         return user
 
-    def create_superuser(self, email, name, password):
-        user = self.create_user(email, name, password)
-
+    def create_superuser(self, email, first_name, last_name, password):
+        user = self.create_user(
+            email=email,
+            password=password,
+            first_name=first_name,
+            last_name=last_name
+        )
         user.is_superuser = True
         user.is_staff = True
-        user.save()
+        user.save(using=self._db)  # Explicitly specify the database
 
         return user
+
 class UserAccount(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(max_length=255, unique=True)
     first_name = models.CharField(max_length=255)
