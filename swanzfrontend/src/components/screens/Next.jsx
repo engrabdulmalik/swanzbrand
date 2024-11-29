@@ -56,10 +56,10 @@
 //           </Typography>
 //         </Breadcrumbs>
 //       </Box>
-      
+
 //       <Grid container spacing={3}>
 //         <Grid item xs={12} md={4}>
-          
+
 //           {/* Search and Categories Section */}
 //           <Box sx={{ padding: 2, backgroundColor: 'white', borderRadius: 2 }}>
 //             <Typography variant="h6" gutterBottom sx={{ fontWeight: 'bold', marginBottom: 2 }}>
@@ -107,7 +107,7 @@
 //         <Grid item xs={12} md={8}>
 //           {/* Blog Cards */}
 //           <BlogNavCard BlogNav={paginatedBlogNav} />
-          
+
 //           {/* Pagination */}
 //           <Box sx={{ display: 'flex', justifyContent: 'center', marginTop: 4 }}>
 //             <Pagination
@@ -128,42 +128,45 @@
 
 // export default Next;
 const shopMenuItems = [
-    { name: 'Men', subCategories: ['Men', 'Accessories'] },
-    { name: 'Women', subCategories: ['Dresses', 'Accessories'] },
-    { name: 'Fashion', subCategories: ['Men', 'Women', 'Fashion'] },
-    { name: 'Electronics', subCategories: ['Electronics'] },
-    { name: 'Furniture', subCategories: ['Furniture'] },
-    { name: 'Food', subCategories: ['Organic Food', 'Cakes', 'Pet Food'] },
-  ];
+  { name: "Men", subCategories: ["Men", "Accessories"] },
+  { name: "Women", subCategories: ["Dresses", "Accessories"] },
+  { name: "Fashion", subCategories: ["Men", "Women", "Fashion"] },
+  { name: "Electronics", subCategories: ["Electronics"] },
+  { name: "Furniture", subCategories: ["Furniture"] },
+  { name: "Food", subCategories: ["Organic Food", "Cakes", "Pet Food"] },
+];
 
-  <Menu
+<Menu
   anchorEl={anchorElSub}
   open={Boolean(anchorElSub)}
   onClose={handleClose}
-  sx={{ mt: '45px', ml: '250px' }}
+  sx={{ mt: "45px", ml: "250px" }}
 >
-  <Box sx={{ width: '250px' }}>
+  <Box sx={{ width: "250px" }}>
     {shopMenuItems
       .find((item) => item.name === selectedCategory)
       ?.subCategories.map((subItem, index) => (
         <MenuItem
           key={index}
           onClick={handleClose}
-          sx={{ display: 'block', width: '100%' }}
+          sx={{ display: "block", width: "100%" }}
         >
-          <Typography variant='body1'>{subItem}</Typography>
+          <Typography variant="body1">{subItem}</Typography>
         </MenuItem>
       ))}
   </Box>
-</Menu>
+</Menu>;
 
-{shopMenuItems.map((item, index) => (
-  <MenuItem
-    key={index}
-    component={Link}
-    to={`/shop?category=${item.name}`}
-    onClick={handleClose}
-  >
-    <Typography variant='body1'>{item.name}</Typography>
-  </MenuItem>
-))};
+{
+  shopMenuItems.map((item, index) => (
+    <MenuItem
+      key={index}
+      component={Link}
+      to={`/shop?category=${item.name}`}
+      onClick={handleClose}
+    >
+    
+      <Typography variant="body1">{item.name}</Typography>
+    </MenuItem>
+  ));
+}
