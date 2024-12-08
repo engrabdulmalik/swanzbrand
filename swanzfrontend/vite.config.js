@@ -21,7 +21,6 @@ export default defineConfig({
       "@mui/system",
       "@emotion/react",
       "@emotion/styled",
-      "@material-ui/core",
       "@reduxjs/toolkit",
       "@vitejs/plugin-react",
       "axios",
@@ -40,6 +39,7 @@ export default defineConfig({
     ],
     exclude: ["fsevents"],
   },
+
   server: {
     proxy: {
       "/api": {
